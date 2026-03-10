@@ -2,13 +2,15 @@ import express from 'express';
 
 const router = express.Router();
 
-router.use('/add-product', (req,res,next) =>{
-    res.send(`<html><form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add project</button></form></html>`)
-    
-})
+import {postAddProduct} from '../controllers/products'
 
-router.use('/product', (req, res, next) =>{
-    res.redirect('/')
-})
+
+// router.get('/add-product', (req,res,next) =>{
+//     res.send(`<html><form action="/admin/product" method="POST"><input type="text" name="title"><button type="submit">Add project</button></form></html>`)
+    
+// })
+
+// /admin/add-product => POST
+router.post('/add-product', postAddProduct)
 
 export default router;
