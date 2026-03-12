@@ -39,8 +39,11 @@ export default class Product {
     }
 
     static fetchAll(cb: any){
-        getDataFromJson((data:object) =>{
+        getDataFromJson((data:object[]) =>{
             cb(data)
         })
+    }
+    static fetchOne (id: number, cb:any){
+        getDataFromJson((data:object[]) => cb(data[id]))
     }
 }

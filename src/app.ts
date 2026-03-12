@@ -12,7 +12,7 @@ import {page404} from './controllers/pageNotFound'
 app.use(bodyParser.json());
 
 app.use('/admin', adminRouter);
-app.use(shopRouter);
+app.use('/shop',shopRouter);
 
 app.use(page404)
 
