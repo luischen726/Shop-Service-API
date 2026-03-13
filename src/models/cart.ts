@@ -22,8 +22,6 @@ export default class Cart{
             }
 
             const findTheProductInCartIndex: number = cart.products.findIndex(i => i.id ===id) 
-            console.log(findTheProductInCartIndex)
-            console.log(cart.products)
             let temp:productType ;
             if (findTheProductInCartIndex >= 0 && cart.products[findTheProductInCartIndex]){
                 temp =  {...cart.products[findTheProductInCartIndex]};
@@ -40,7 +38,9 @@ export default class Cart{
 
             cart.totalPrice = cart.totalPrice + price
 
-            fs.writeFile(storePath, JSON.stringify(cart), (e)=>{console.log(e)})
+            fs.writeFile(storePath, JSON.stringify(cart), (e)=>{
+                if (e) console.log(e)
+            })
 
         })
 

@@ -17,7 +17,8 @@ app.use('/shop',shopRouter);
 app.use(page404)
 
 
+export default app
 
 
-app.listen(3000);
+// app.listen(3000);
 

@@ -1,13 +1,14 @@
+import {Request, Response, NextFunction} from 'express'
 import Product from "../models/product";
 
 
-export function getAddProduct (req: any, res:any, next:any){
+export function getAddProduct (req: Request, res:Response, next:NextFunction){
     res.json()
     
 }
 
 
-export function postAddProduct (req: any, res:any, next:any){
+export function postAddProduct (req: Request, res:Response, next:NextFunction){
     const newProduct = new Product(
         req.body.title? req.body.title: "",
         req.body.imagURL? req.body.imagURL: "",
