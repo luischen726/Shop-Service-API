@@ -1,16 +1,34 @@
-
-
 import request from 'supertest'
-import app from '../../src/app'
-import rootDir from '../../src/util/path'
 import path from 'node:path'
 import fs from 'fs'
 
+import rootDir from '../../src/util/path'
+import app from '../../src/app'
+
+
 const storePath = path.join(rootDir, 'products.json') 
 
+type productType = {
+    title: string,
+    imagURL:string,
+    description: string,
+    price: number
+}
 
-beforeAll(() =>{
+const defaultProInfo = {
+    title:"default",
+    imagURL:"default URL",
+    description: "default description",
+    price: 1
+}
 
+
+beforeAll(async () =>{
+    // adding default data for testing
+    await request(app)
+    .post('/admin/add-product')
+    .send(defaultProInfo)
+    
 })
 afterAll(() =>{
     //remove the generate file from test
@@ -41,7 +59,6 @@ describe("GET =>/admin/add-product", () =>{
     test("", async () =>{
         const sendRequest = await request(app)
         .get("/admin/add-product")
-
         expect(sendRequest.statusCode).toEqual(200);
         expect(sendRequest.body).toEqual(expect.arrayContaining([expect.objectContaining({
             title:expect.any(String),
@@ -52,17 +69,52 @@ describe("GET =>/admin/add-product", () =>{
     })
 })
 
+// GET => Getting the product in dataBase for editing purpose
+describe("GET =>/admin/edit-product", () =>{
 
-// // GET => returns all products in database
-// describe("GET => /shop/",  () =>{
-    
-//     test("", async () =>{
-//         const result = await request(app)
-//         .get('/shop/');
-//         expect(result.statusCode).toEqual(200)
-//         expect(result.body).toEqual(expect.any(Array))
-//     })
-// })
+    describe("Error: ", () =>{
+        test("Forgetting for route parameter", async () =>{
+            const sendRequest = await request(app)
+            .get("/admin/edit-product")
+
+            expect(sendRequest.statusCode).toEqual(404);
+            //response with the product detail
+            expect(sendRequest.body).toEqual(expect.objectContaining({
+                error: 404,
+                data:expect.any(String)
+            }))
+        })
+        test("Not found index product", async () =>{
+            const emptyIndex = 1234;
+
+            const sendRequest = await request(app)
+            .get(`/admin/edit-product/${emptyIndex}`)
+
+            expect(sendRequest.statusCode).toEqual(400);
+            //response with the product detail
+            expect(sendRequest.body).toEqual(expect.objectContaining({
+                error:400,
+                data:`index: ${emptyIndex} does not have product found`
+            }))
+        })
+    })
+
+    test("Response with product detail for editing", async () =>{
+        const sendRequest = await request(app)
+        .get("/admin/edit-product/0")
+
+        expect(sendRequest.statusCode).toEqual(200);
+        //response with the product detail
+        expect(sendRequest.body).toEqual(expect.objectContaining({
+            title:expect.any(String),
+            imagURL:expect.any(String),
+            description: expect.any(String),
+            price: expect.any(Number)
+        }))
+    })
+})
+
+
 
 
 

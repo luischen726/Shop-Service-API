@@ -45,6 +45,9 @@ export default class Product {
         })
     }
     static fetchOne (idex: number, cb:any): undefined{
-        getDataFromJson((data:object[]) => cb(data[idex]))
+        getDataFromJson((data:object[]) => {
+            if (data[idex]) return cb(data[idex])
+            cb("the data not found!!")
+        })
     }
 }

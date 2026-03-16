@@ -30,3 +30,20 @@ export function postAddProduct (req: Request, res:Response, next:NextFunction){
     });
 
 } 
+
+export function getEditProduct(req: Request, res:Response, next:NextFunction){
+    const provideIndex = req.params.index;
+    const queryTitle = req.query?.title
+
+    Product.fetchOne(+provideIndex, (theData:{}) =>{
+        if (typeof theData === 'object'){
+
+            res.status(200).json(theData)
+        } else {
+            res.status(400).json({error: 400, data:`index: ${provideIndex} does not have product found`})
+        }
+    })
+
+
+
+}
