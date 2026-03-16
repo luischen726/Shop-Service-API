@@ -1,4 +1,19 @@
+
+/** @type {import('jest').Config} */
 module.exports = {
-  preset: 'ts-jest', //preset: 'ts-jest' tells Jest to use the TypeScript transformer from ts-jest
-  testEnvironment: 'node', //testEnvironment: 'node' is the right environment for backend code.
+  testEnvironment: 'node',
+  clearMocks: true,
+
+  testMatch: ['<rootDir>/tests/**/*.test.ts'],
+
+  moduleFileExtensions: ['ts', 'js', 'json'],
+
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.test.json',
+      },
+    ],
+  },
 };

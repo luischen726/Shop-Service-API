@@ -29,21 +29,22 @@ export default class Product {
         this.price = price;
     }   
     
-    save(){
+    save(cb:any): undefined{
         getDataFromJson((data: object[]) =>{  
             data.push(this)
             fs.writeFile(storePath, JSON.stringify(data),  (err ) =>{
-                if (err) console.log(err)
+                if (err) return cb(err);
+                cb(null)
             })
         })
     }
 
-    static fetchAll(cb: any){
+    static fetchAll(cb: any): undefined{
         getDataFromJson((data:object[]) =>{
             cb(data)
         })
     }
-    static fetchOne (id: number, cb:any){
-        getDataFromJson((data:object[]) => cb(data[id]))
+    static fetchOne (idex: number, cb:any): undefined{
+        getDataFromJson((data:object[]) => cb(data[idex]))
     }
 }

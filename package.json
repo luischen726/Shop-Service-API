@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest ./src",
-    "dev": "nodemon dist/server.js"
+    "dev": "nodemon dist/server.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck:test": "tsc -p tsconfig.test.json --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch"
+    
   },
   "repository": {
     "type": "git",
