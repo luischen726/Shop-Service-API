@@ -1,5 +1,9 @@
+
+
+import dotenv from "dotenv/config"
 import express from 'express';
 import bodyParser from 'body-parser';
+import sequelize from './util/database';
 
 const app = express();
 
@@ -16,6 +20,11 @@ app.use('/shop',shopRouter);
 
 app.use(page404)
 
+sequelize.sync()
+.then(result =>{
+    console.log(result)
+})
+.catch(err => console.log(err))
 
 export default app
 
