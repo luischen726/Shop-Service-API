@@ -2,20 +2,24 @@ import express from 'express';
 
 const router = express.Router();
 
-// import {
-//     getProducts,
-//     getProduct,
-//     getCart,
-//     getCheckOut,
-//     addProductToCart
-// } from '../controllers/shop'
+import {
+    getIndex,
+    getProducts,
+    getProduct,
+    getCart,
+    // getCheckOut,
+    postCart,
+    postCartDeleteProduct
+} from '../controllers/shop'
 
 
-// router.get('/',getProducts);
-// router.get('/products',getProducts);
-// router.get('/products/:productId',getProduct);
-// router.get('/cart',getCart);
-// router.post('/cart',addProductToCart);
+router.get('/',getIndex);
+router.get('/products',getProducts);
+router.get('/products/:productId',getProduct);
+router.get('/cart',getCart);
+router.post('/cart',postCart);
+router.post('/cart-delete-item',postCartDeleteProduct);
+// router.get('/order',);
 // router.get('/checkout',getCheckOut);
 
 export default router;

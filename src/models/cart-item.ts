@@ -8,13 +8,13 @@ import { INTEGER, STRING } from 'sequelize';
 const storePath = path.join(rootDir, 'carts.json') 
 
 
-const Cart =  sequelize.define("Cart", {
+const cartItem = sequelize.define("cartItem", {
     id: {
         type: INTEGER,
         autoIncrement:true,
         allowNull:false,
         primaryKey:true
-    }
+    },
+    quantity:INTEGER
 })
-
-export default Cart
+export default cartItem

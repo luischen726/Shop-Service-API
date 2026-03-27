@@ -2,22 +2,27 @@ import express from 'express';
 
 const router = express.Router();
 
-// import {getAddProduct,postAddProduct,getEditProduct} from '../controllers/admin'
+import {
+    getAddProduct,
+    postAddProduct,
+    getEditProduct,
+    postEditProduct,
+    postDeleteProduct
+} from '../controllers/admin'
 
-
-// // router.get('/add-product', (req,res,next) =>{
-// //     res.send(`<html><form action="/admin/product" method="POST"><input type="text" name="title"><button type="submit">Add project</button></form></html>`)
-    
-// // })
-
-// router.get('/products', getAddProduct)
 
 // // /admin/add-product => GET
 // router.get('/add-product', getAddProduct)
 
-// // /admin/add-product => POST
-// router.post('/add-product', postAddProduct)
+// /admin/products => GET
+router.get('/products', getAddProduct)
 
-// router.get('/edit-product/:index',getEditProduct)
+// /admin/add-product => POST
+router.post('/add-product', postAddProduct)
+
+router.get('/edit-product/:id',getEditProduct)
+//curl -X POST localhost:3000/admin/edit-product -H "Content-Type: application/json" -d '{"productId":1,"title":"new Book", "description": "dfasdfad", "price":100,"imageURL":"dfmasdfa"}'
+router.post('/edit-product',postEditProduct)
+router.post('/delete-product',postDeleteProduct )
 
 export default router;
