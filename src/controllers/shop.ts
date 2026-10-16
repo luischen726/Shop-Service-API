@@ -1,8 +1,10 @@
 
 import {Request, Response, NextFunction} from 'express'
+import jwt from "jsonwebtoken";
 import {Model} from "sequelize/types"
 import Product from '../models/product'
 import Cart from '../models/cart'
+import User from '../models/user'
 
 
 export function getIndex (req: Request, res:Response, next:NextFunction){
@@ -109,3 +111,48 @@ export function postCartDeleteProduct (req: Request, res:Response, next:NextFunc
 //     res.status(200).json("")
 
 // } 
+
+// export function postRegister(req: Request, res:Response, next:NextFunction){
+//     const registerInfo :{
+//         email: string,
+//         name: string,
+//         password: string
+//     }= req.body
+
+//     if (!registerInfo?.email) return res.json("email is required")
+//     if (!registerInfo?.name) return res.json("name is required")
+//     if (!registerInfo?.password) return res.json("password is required")
+    
+//     User.findOne({where:{email:registerInfo.email}})
+//     .then(u => {
+//         if (u ) return res.json("The User is exist")
+            
+            
+//         User.create({
+//             name:registerInfo.name, 
+//             email:registerInfo.email,
+//             // account: "luis726",
+//             password: registerInfo.password
+//         })
+            
+        
+        
+        
+//     }).catch(err => console.log(err))
+// };
+// export function postLogin(req: Request, res:Response, next:NextFunction){
+//     const loginInfo = req.body;
+//     if (!loginInfo?.password || !loginInfo?.account ) return res.json(`information is insufficient`)
+//     User.findOne({where:{account: loginInfo.account, password: loginInfo.password}})
+//     .then((u:any) =>{
+//         if (!u) return res.json("There is not such user")
+//         const token = jwt.sign(
+//         {userId:u.id}, 
+//         `${process.env.MYSQL_PASSWORD}`,
+//         {expiresIn: "1h" }
+//         )
+//         return res.json({token})
+        
+//     })
+//     .catch(err => res.json("Something wrong with User model"))
+// };

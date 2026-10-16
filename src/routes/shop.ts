@@ -2,6 +2,8 @@ import express from 'express';
 
 const router = express.Router();
 
+import {jwtVerify} from '../middlewares/jwt-verify'
+
 import {
     getIndex,
     getProducts,
@@ -9,17 +11,23 @@ import {
     getCart,
     // getCheckOut,
     postCart,
-    postCartDeleteProduct
+    postCartDeleteProduct,
+    // postRegister,
+    // postLogin
 } from '../controllers/shop'
-
 
 router.get('/',getIndex);
 router.get('/products',getProducts);
-router.get('/products/:productId',getProduct);
-router.get('/cart',getCart);
-router.post('/cart',postCart);
-router.post('/cart-delete-item',postCartDeleteProduct);
+router.get('/products/:productId',jwtVerify,getProduct);
+router.get('/cart',jwtVerify, getCart);
+router.post('/cart',jwtVerify, postCart);
+router.post('/cart-delete-item',jwtVerify, postCartDeleteProduct);
 // router.get('/order',);
 // router.get('/checkout',getCheckOut);
+
+//account
+// router.post('/register', postRegister)
+// router.post('/login', postLogin)
+
 
 export default router;
