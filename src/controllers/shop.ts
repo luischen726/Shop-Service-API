@@ -5,6 +5,7 @@ import {Model} from "sequelize/types"
 import Product from '../models/product'
 import Cart from '../models/cart'
 import User from '../models/user'
+import { validationResult } from 'express-validator';
 
 
 export function getIndex (req: Request, res:Response, next:NextFunction){
@@ -28,16 +29,16 @@ export function getProducts (req: Request, res:Response, next:NextFunction){
 } 
 
 export function getProduct(req: Request, res:Response, next:NextFunction){
-    const id = req.params.productId
-    if (typeof id === "string") {
-
-        Product.findOne({where:{id: +id}})
-        .then(product =>{
-            res.status(200).json(product)
-        })
-        .catch(err => console.log(err))
-
+    const error = validationResult(req);
+    if (!error.isEmpty() ){
+        return res.status(422).json(error.array()[0].msg)
     }
+    const id = req.params.productId
+    Product.findOne({where:{id: +id}})
+    .then(product =>{
+        res.status(200).json(product)
+    })
+    .catch(err => console.log(err))
 
 
 }
@@ -57,6 +58,11 @@ export function getCart (req: Request, res:Response, next:NextFunction){
 
 //curl -X POST localhost:3000/cart -H "Content-Type: application/json" -d '{"productId":1 }'
 export function postCart (req: Request, res:Response, next:NextFunction){
+    const error = validationResult(req);
+
+    if (!error.isEmpty() ){
+        return res.status(422).json(error.array()[0].msg)
+    }
     const productId = req.body.productId
     let fetchedCart: { addProduct: (o:any, options:object) => any };
     let newQuantity = 1;

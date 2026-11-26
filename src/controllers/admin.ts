@@ -1,4 +1,6 @@
 import {Request, Response, NextFunction} from 'express'
+import {validationResult} from 'express-validator'
+
 import Product from "../models/product";
 import { Model } from 'sequelize';
 
@@ -24,7 +26,10 @@ export async function getAddProduct (req: Request, res:Response, next:NextFuncti
 
 //curl -X POST localhost:3000/admin/add-product -H "Content-Type: application/json" -d '{"title":"new item", "price":1, "imageURL":"fakeURL","description":"fake description" }'
 export function postAddProduct (req: Request, res:Response, next:NextFunction){
-
+    const error = validationResult(req);
+    if (!error.isEmpty())return res
+    .status(422)
+    .json(error.array()[0].msg); 
     // Product.create({
     //     title:  req.body.title? req.body.title: "",
     //     price: req.body.price? req.body.price : 0,
@@ -46,6 +51,10 @@ export function postAddProduct (req: Request, res:Response, next:NextFunction){
 } 
 
 export function getEditProduct(req: Request, res:Response, next:NextFunction){
+    const error = validationResult(req);
+    if (!error.isEmpty())return res
+    .status(422)
+    .json(error.array()[0].msg); 
     const id = +req.params.id;
     const queryTitle = req.query?.title
     if (typeof id !== 'number' ) return res.status(400).json("fail to find product")
@@ -58,27 +67,39 @@ export function getEditProduct(req: Request, res:Response, next:NextFunction){
 }
 
 export function postEditProduct(req: Request, res:Response, next:NextFunction){
-    const productId: number  = req.body.productId;
-    const title = req.body.title
-    const imageURL = req.body.imagURL
-    const description = req.body.description
-    const price = req.body.price
+    const error = validationResult(req);
+    if (!error.isEmpty())return res
+    .status(422)
+    .json(error.array()[0].msg); 
+    
+    const {productId, title,imageURL,description,price} = req.body;
 
     Product.update({
         title,imageURL,description,price
-    }, {where:{id: productId}})
-    .then(result =>{
-        res.status(200).json(result)
+    }, {where:{id: productId, UserId: req.user.id}})
+    .then((result: [number]) =>{
+        console.log(result)
+        if (result[0]) return  res.status(200).json("The product update success!");
+        res.status(422).json("Product destruction fail")
+        
     })
     .catch(err => console.log(err));
 }
 
 export function postDeleteProduct(req: Request, res:Response, next:NextFunction){
+    const error = validationResult(req);
+    if (!error.isEmpty())return res
+    .status(422)
+    .json(error.array()[0].msg); 
+    
     const productId: number  = req.body.productId;
 
-    Product.destroy({where:{id:productId}})
+    Product.destroy({where:{id:productId, UserId: req.user.id}})
     .then(result =>{
-        res.status(200).json(result)
+        if (result) return  res.status(200).json("The product is destroyed!");
+
+        res.status(422).json("Product destruction fail")
+        
     })
     .catch(err => console.log(err));
 }

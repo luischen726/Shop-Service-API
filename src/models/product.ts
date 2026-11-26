@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import rootDir from '../util/path';
 import path from 'path';
 import sequelize from '../util/database'
+import { Model } from "sequelize";
+
 import { 
     DOUBLE,
     INTEGER,
@@ -10,7 +12,15 @@ import {
 
 const storePath = path.join(rootDir, 'products.json') 
 
-const Product = sequelize.define("product", {
+export interface ProductInterface extends Model {
+    id: number;
+    title: string;
+    price: number;
+    imageURL: string;
+    description: string;
+}
+
+const Product = sequelize.define<ProductInterface>("product", {
     id:{
         type:INTEGER,
         autoIncrement:true,

@@ -1,4 +1,4 @@
-import { Model } from "sequelize";
+import { DATE, Model } from "sequelize";
 import { 
     INTEGER,
     STRING,
@@ -9,6 +9,8 @@ export interface UserInstance extends Model {
     id: number;
     email: string;
     password: string;
+    resetToken:string;
+    resetTimeOut: Date;
 }
 
 const User =  sequelize.define<UserInstance>("User", {
@@ -24,16 +26,20 @@ const User =  sequelize.define<UserInstance>("User", {
         allowNull:false,
         
     },
-    // account:{
-    //     type: STRING,
-    //     unique:true,
-    //     allowNull:false,
-    // },
     password: {
         type: STRING,
         // unique:true,
         allowNull:false,
-
+    },
+    resetToken:{
+        type:STRING,
+        allowNull:true,
+        defaultValue:null
+    },
+    resetTimeOut:{
+        type: DATE,
+        allowNull:true,
+        defaultValue:null
     }
 
 })
