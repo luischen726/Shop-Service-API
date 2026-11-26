@@ -101,17 +101,17 @@ Cart.belongsToMany(Product,{through: CartItem})
 // sequelize.sync({force:true})
 sequelize.sync()
 .then(result =>{
-    return User.findByPk(1);
+    // return User.findByPk(1);
 })
-.then((u: any ) =>{
-    if (!u) return User.create({
-        // name:"luis", 
-        email:"test@test.com",
-        // account: "luis726",
-        password: "1234"
-    })
-    return u
-})
+// .then((u: any ) =>{
+//     if (!u) return User.create({
+//         // name:"luis", 
+//         email:"test@test.com",
+//         // account: "luis726",
+//         password: "1234"
+//     })
+//     return u
+// })
 .catch(err => console.log(err))
 
 export default app
